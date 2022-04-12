@@ -720,6 +720,7 @@ class ScanEntry:
         self.rssi = None
         self.connectable = False
         self.rawData = None
+        self.unparsedData = None
         self.scanData = {}
         self.updateCount = 0
 
@@ -731,6 +732,7 @@ class ScanEntry:
         self.rssi = -resp['rssi'][0]
         self.connectable = ((resp['flag'][0] & 0x4) == 0)
         data = resp.get('d', [''])[0]
+        self.unparsedData = resp.get('rd', None)
         self.rawData = data
 
         # Note: bluez is notifying devices twice: once with advertisement data,
