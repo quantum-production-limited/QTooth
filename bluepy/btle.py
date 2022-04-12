@@ -358,12 +358,26 @@ class BluepyHelper:
                 return None
 
             DBG("Got:", repr(rv))
-            if rv.startswith('#') or rv == '\n' or len(rv)==0:
+            if rv.startswith('#') or rv == '\n' or len(rv) == 0:
                 continue
+
+            raw_vals = dict(s.split('=') for s in rv.strip().split('\x1e'))
+            """
+            KEYS
+            rsp = ?
+            addr = sender mac address
+            type = ?
+            rssi = signal strength
+            flag = ?
+            d = data
+            """
 
             resp = BluepyHelper.parseResp(rv)
             if 'rsp' not in resp:
                 raise BTLEInternalError("No response type indicator", resp)
+
+            if 'd' in raw_vals.keys():
+                resp['raw'] = raw_vals['d'][1:]  # gets string from 1: to remove 'b' bytes indicator
 
             respType = resp['rsp'][0]
 
