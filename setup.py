@@ -51,7 +51,7 @@ except ImportError:
 
 
 setup (
-    name='bluepy',
+    name='qtooth',
     version=VERSION,
     description='Python module for interfacing with BLE devices through Bluez',
     author='Ian Harvey',
